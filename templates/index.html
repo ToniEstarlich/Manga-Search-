@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manga Gallery</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <!-- Search Bar -->
+    <section class="search">
+        <form action="/search" method="get">
+            <input type="text" name="query" placeholder="Search for manga..." required>
+            <button type="submit">Search</button>
+        </form>
+    </section>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Discover Your Next Favorite Manga</h1>
+        <p>Explore thousands of manga titles</p>
+    </section>
+
+    <!-- Manga Gallery -->
+    <section class="manga-gallery">
+        {% if manga_data %}
+            {% for manga in manga_data %}
+            <div class="manga-card">
+                <img src="{{ manga.images.jpg.image_url }}" alt="{{ manga.title }}" class="manga-cover">
+                <h3 class="manga-title">{{ manga.title }}</h3>
+                <p class="manga-synopsis">{{ manga.synopsis[:200] if manga.synopsis else 'No synopsis available' }}...</p>
+                <a href="{{ manga.url }}" target="_blank">More Info</a>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>No results found. Please try another search.</p>
+        {% endif %}
+    </section>
+</body>
+</html>
+
